@@ -1,2 +1,2 @@
 # PracticalMachineLearning
-JHU Coursera Practical Machine Learninh
+JHU Coursera Practical Machine Learning
