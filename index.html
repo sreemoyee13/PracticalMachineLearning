@@ -380,7 +380,10 @@ library(randomForest)
 library(rattle)
 library(corrplot)
 library(gbm)</code></pre>
-<p>##Data Loading</p>
+</div>
+</div>
+<div id="data-loading" class="section level2">
+<h2>Data Loading</h2>
 <pre class="r"><code>train_in &lt;- read.csv(&#39;./pml-training.csv&#39;, header=T)
 valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 &gt; dim(train_in)
@@ -388,7 +391,9 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 &gt; dim(valid_in)
 [1]  20 160</code></pre>
 <p>We can tell there are 19622 observations and 160 variables in the Training Dataset</p>
-<p>##Data Cleaning</p>
+</div>
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
 <p>The variables that contain missing values are removed. Therefore the dataset now has less dimension</p>
 <pre class="r"><code>&gt; trainData&lt;- train_in[, colSums(is.na(train_in)) == 0]
 &gt; validData &lt;- valid_in[, colSums(is.na(valid_in)) == 0]
@@ -403,6 +408,10 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 [1] 19622    86
 &gt; dim(validData)
 [1] 20 53</code></pre>
+</div>
+<div id="splitting-the-datasets" class="section level2">
+<h2>Splitting the Datasets</h2>
+<p>The datasets have been splitted into training dataset (70%) and test dataset (30%). This is done to get the prediction and the out of sample errors.</p>
 <pre class="r"><code>&gt; set.seed(1234)
 &gt; inTrain &lt;- createDataPartition(trainData$classe, p = 0.7, list = FALSE)
 &gt; trainData &lt;- trainData[inTrain, ]
@@ -411,6 +420,10 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 [1] 13737    86
 &gt; dim(testData)
 [1] 4123   86</code></pre>
+</div>
+<div id="further-data-cleaning" class="section level2">
+<h2>Further Data Cleaning</h2>
+<p>The near zero variance variables are also removed. As we can see after this we have 53 variables.</p>
 <pre class="r"><code>&gt; NZV &lt;- nearZeroVar(trainData)
 &gt; trainData &lt;- trainData[, -NZV]
 &gt; testData  &lt;- testData[, -NZV]
@@ -418,11 +431,13 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 [1] 13737    53
 &gt; dim(testData)
 [1] 4123   53</code></pre>
+<p>The correlation plot is drawn. The correlated variables are those with a dark color intersection.</p>
 <pre class="r"><code>cor_mat &lt;- cor(trainData[, -53])
 corrplot(cor_mat, order = &quot;FPC&quot;, method = &quot;color&quot;, type = &quot;upper&quot;,
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))
 </code></pre>
 <p>The plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf">Corr _Plot.pdf</a> file in the GitHub repository</p>
+<p>From the plot we can tell there are many highly correlated variables. The following are the highly correlated variables with cutoff=.75</p>
 <pre class="r"><code>highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
 [1] &quot;accel_belt_z&quot;      &quot;roll_belt&quot;         &quot;accel_belt_y&quot;     
@@ -617,7 +632,6 @@ Accuracy
 &gt; FinalPred
 [1] B A B A A E D B A A B C B A E E A B B B
 Levels: A B C D E</code></pre>
-</div>
 </div>
 <div id="i-hope-this-fucking-works" class="section level2">
 <h2>I hope this fucking works</h2>

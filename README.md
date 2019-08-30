@@ -19,7 +19,7 @@ library(rattle)
 library(corrplot)
 library(gbm)
 ```
-##Data Loading
+## Data Loading
  
 ``` r
 train_in <- read.csv('./pml-training.csv', header=T)
@@ -31,7 +31,7 @@ valid_in <- read.csv('./pml-testing.csv', header=T)
 ```
 We can tell there are 19622 observations and 160 variables in the Training Dataset
 
-##Data Cleaning
+## Data Cleaning
 
 The variables that contain missing values are removed. Therefore the dataset now has less dimension
 
@@ -54,6 +54,9 @@ Final Data Cleaning is done by removing the first seven variables as they have l
 > dim(validData)
 [1] 20 53
 ```
+## Splitting the Datasets
+
+The datasets have been splitted into training dataset (70%) and test dataset (30%). This is done to get the prediction and the out of sample errors.
 
 ```r
 > set.seed(1234)
@@ -65,6 +68,11 @@ Final Data Cleaning is done by removing the first seven variables as they have l
 > dim(testData)
 [1] 4123   86
 ```
+## Further Data Cleaning 
+
+The near zero variance variables are also removed.
+As we can see after this we have 53 variables.
+
 
 ```r
 > NZV <- nearZeroVar(trainData)
@@ -75,16 +83,23 @@ Final Data Cleaning is done by removing the first seven variables as they have l
 > dim(testData)
 [1] 4123   53
 ```
+The correlation plot is drawn. The correlated variables are those with a dark color intersection.
+
 ```r
 cor_mat <- cor(trainData[, -53])
 corrplot(cor_mat, order = "FPC", method = "color", type = "upper",
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))
+
 ```
 The plot is available in [Corr _Plot.pdf](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf) file in the GitHub repository
+
+From the plot we can tell there are many highly correlated variables.
+The following are the highly correlated variables with cutoff=.75
 
 ```r
 highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
+
 [1] "accel_belt_z"      "roll_belt"         "accel_belt_y"     
  [4] "total_accel_belt"  "accel_dumbbell_z"  "accel_belt_x"     
  [7] "pitch_belt"        "magnet_dumbbell_x" "accel_dumbbell_y" 
