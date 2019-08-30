@@ -209,7 +209,7 @@ The accuracy rate of the model is plotted
 ```r
 > plot(model_RF,main="Accuracy Rate of RFMA with predictors")
 ```
-The Accuracy Rate plot is available in [Accuracy_RFMA.png] (https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png) file in the Git Respiratory
+The Accuracy Rate plot is available in [Accuracy_RFMA.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png) file in the Git Respiratory
 
 ```r
 
