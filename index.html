@@ -440,6 +440,7 @@ tl.cex = 0.8, tl.col = rgb(0, 0, 0))
 <p>From the plot we can tell there are many highly correlated variables. The following are the highly correlated variables with cutoff=.75</p>
 <pre class="r"><code>highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
+
 [1] &quot;accel_belt_z&quot;      &quot;roll_belt&quot;         &quot;accel_belt_y&quot;     
  [4] &quot;total_accel_belt&quot;  &quot;accel_dumbbell_z&quot;  &quot;accel_belt_x&quot;     
  [7] &quot;pitch_belt&quot;        &quot;magnet_dumbbell_x&quot; &quot;accel_dumbbell_y&quot; 
@@ -447,10 +448,12 @@ names(trainData)[highlyCorrelated]
 [13] &quot;accel_arm_z&quot;       &quot;magnet_arm_y&quot;      &quot;magnet_belt_z&quot;    
 [16] &quot;accel_forearm_y&quot;   &quot;gyros_forearm_y&quot;   &quot;gyros_dumbbell_x&quot; 
 [19] &quot;gyros_dumbbell_z&quot;  &quot;gyros_arm_x&quot;</code></pre>
+</div>
+<div id="modelling" class="section level2">
+<h2>Modelling</h2>
 <pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)</code></pre>
-<p>The plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
 <pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
 &gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)
 &gt; cmtree
@@ -497,7 +500,9 @@ Detection Prevalence   0.1630
 Balanced Accuracy      0.8416
 
 &gt; plot(cmtree$table, col = cmtree$byClass, 
-     main = paste(&quot;Decision Tree - Accuracy =&quot;, round(cmtree$overall[&#39;Accuracy&#39;], 4)))</code></pre>
+     main = paste(&quot;Decision Tree - Accuracy =&quot;, round(cmtree$overall[&#39;Accuracy&#39;], 4)))
+     </code></pre>
+<p>The plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
 <pre class="r"><code>
 &gt; controlRF &lt;- trainControl(method=&quot;cv&quot;, number=3)
  model_RF &lt;- train(classe ~ ., data=trainData, method=&quot;rf&quot;, trControl=controlRF)

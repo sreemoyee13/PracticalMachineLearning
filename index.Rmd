@@ -101,6 +101,7 @@ The following are the highly correlated variables with cutoff=.75
 ```r
 highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
+
 [1] "accel_belt_z"      "roll_belt"         "accel_belt_y"     
  [4] "total_accel_belt"  "accel_dumbbell_z"  "accel_belt_x"     
  [7] "pitch_belt"        "magnet_dumbbell_x" "accel_dumbbell_y" 
@@ -109,12 +110,15 @@ names(trainData)[highlyCorrelated]
 [16] "accel_forearm_y"   "gyros_forearm_y"   "gyros_dumbbell_x" 
 [19] "gyros_dumbbell_z"  "gyros_arm_x"
 ```
+
+## Modelling
+
 ```r
 decisionTreeMod1 <- rpart(classe ~ ., data=trainData, method="class")
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
 ```
-The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
+
 
 
 ```r
@@ -165,7 +169,9 @@ Balanced Accuracy      0.8416
 
 > plot(cmtree$table, col = cmtree$byClass, 
      main = paste("Decision Tree - Accuracy =", round(cmtree$overall['Accuracy'], 4)))
-```     
+     
+``` 
+The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
      
 ```r
 

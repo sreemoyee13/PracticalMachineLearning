@@ -107,17 +107,16 @@ names(trainData)[highlyCorrelated]
 [13] "accel_arm_z"       "magnet_arm_y"      "magnet_belt_z"    
 [16] "accel_forearm_y"   "gyros_forearm_y"   "gyros_dumbbell_x" 
 [19] "gyros_dumbbell_z"  "gyros_arm_x"
+
 ```
+## Modelling
+
 ```r
 decisionTreeMod1 <- rpart(classe ~ ., data=trainData, method="class")
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
 
 ```
-
-The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
-
-
 
 ```r
 predictTreeMod1 <- predict(decisionTreeMod1, testData, type = "class")
@@ -168,7 +167,7 @@ Balanced Accuracy      0.8416
 > plot(cmtree$table, col = cmtree$byClass, 
      main = paste("Decision Tree - Accuracy =", round(cmtree$overall['Accuracy'], 4)))
 ```     
-     
+ The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository    
 ```r
 
 > controlRF <- trainControl(method="cv", number=3)
