@@ -83,7 +83,8 @@ fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
 
 ```
-The plot is available in the [Decision _Tree.png] file in the GitHub repository  (https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png)
+
+The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
 
 ```r
 predictTreeMod1 <- predict(decisionTreeMod1, testData, type = "class")
