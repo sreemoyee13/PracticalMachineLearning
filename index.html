@@ -449,8 +449,8 @@ names(trainData)[highlyCorrelated]
 [16] &quot;accel_forearm_y&quot;   &quot;gyros_forearm_y&quot;   &quot;gyros_dumbbell_x&quot; 
 [19] &quot;gyros_dumbbell_z&quot;  &quot;gyros_arm_x&quot;</code></pre>
 </div>
-<div id="modelling" class="section level2">
-<h2>Modelling</h2>
+<div id="modeling" class="section level2">
+<h2>Modeling</h2>
 <p>Three Models have been tested for predicting the outcome</p>
 </div>
 <div id="classification-tree-model" class="section level2">
@@ -459,6 +459,7 @@ names(trainData)[highlyCorrelated]
 <pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)</code></pre>
+<p>The Classification Tree plot by using the fancyRpartPlot()function is available in<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/FancyRplot_DecisionTree.pdf">FancyRplot_DecisionTree.pdf</a> file in the Github respiratory</p>
 <p>The model is then validiated on the ‘testdate’ by checking at the accuracy variable</p>
 <pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
 &gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)

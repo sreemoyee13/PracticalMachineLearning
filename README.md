@@ -109,7 +109,7 @@ names(trainData)[highlyCorrelated]
 [19] "gyros_dumbbell_z"  "gyros_arm_x"
 
 ```
-## Modelling
+## Modeling
 Three Models have been tested for predicting the outcome
 
 First, Classification Tree Model is tested.
@@ -119,8 +119,11 @@ Then the fancyRpartPlot() function is used to plot the classification tree
 decisionTreeMod1 <- rpart(classe ~ ., data=trainData, method="class")
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
-
 ```
+
+The Classification Tree plot by using the fancyRpartPlot()function is available in [FancyRplot_DecisionTree.pdf](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/FancyRplot_DecisionTree.pdf) 
+
+
 The model is then validiated on the 'testdate' by checking at the accuracy variable
 
 ```r
