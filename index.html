@@ -414,7 +414,9 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 [1] 4123   53</code></pre>
 <pre class="r"><code>cor_mat &lt;- cor(trainData[, -53])
 corrplot(cor_mat, order = &quot;FPC&quot;, method = &quot;color&quot;, type = &quot;upper&quot;,
-tl.cex = 0.8, tl.col = rgb(0, 0, 0))</code></pre>
+tl.cex = 0.8, tl.col = rgb(0, 0, 0))
+</code></pre>
+<p>The plot is available in [Corr _Plot.pdf] file in the GitHub repository (<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf" class="uri">https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf</a>)</p>
 <pre class="r"><code>highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
 [1] &quot;accel_belt_z&quot;      &quot;roll_belt&quot;         &quot;accel_belt_y&quot;     

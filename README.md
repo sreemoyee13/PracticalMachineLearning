@@ -64,6 +64,8 @@ cor_mat <- cor(trainData[, -53])
 corrplot(cor_mat, order = "FPC", method = "color", type = "upper",
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))
 ```
+The plot is available in [Corr _Plot.pdf] file in the GitHub repository  (https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf)
+
 ```r
 highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
