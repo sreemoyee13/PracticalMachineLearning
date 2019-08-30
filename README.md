@@ -65,10 +65,6 @@ corrplot(cor_mat, order = "FPC", method = "color", type = "upper",
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))
 ```
 The plot is available in [Corr _Plot.pdf](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf) file in the GitHub repository
-<<<<<<< HEAD
-
-=======
->>>>>>> cb84240624d0d1cb164517aa09d507a1f44a779c
 
 ```r
 highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
@@ -87,8 +83,8 @@ fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
 
 ```
-<<<<<<< HEAD
-he plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
+
+The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
 
 =======
 

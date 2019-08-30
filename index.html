@@ -429,7 +429,7 @@ names(trainData)[highlyCorrelated]
 <pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)</code></pre>
-<p>he plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
+<p>The plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
 <pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
 &gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)
 &gt; cmtree

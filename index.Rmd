@@ -81,7 +81,7 @@ decisionTreeMod1 <- rpart(classe ~ ., data=trainData, method="class")
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
 ```
-he plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
+The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
 
 
 ```r
