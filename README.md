@@ -340,7 +340,7 @@ The model is then plotted.
 
 > plot(model_GBM)
 ```
-The model aacuracy plot is available in[Accuracy_GBM](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_GBM.png) file in the Github Respiratory.
+The model aacuracy plot is available in [Accuracy_GBM](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_GBM.png) file in the Github Respiratory.
 
 ```r
 > trainpred <- predict(model_GBM,newdata=testData)
