@@ -597,6 +597,10 @@ yaw_arm                10.57
 magnet_belt_x          10.26
 &gt; </code></pre>
 <p>Also, with Random Forest Model we noticed that the number of predictors giving the highest accuracy rate is 27</p>
+</div>
+<div id="gradient-boosting-method" class="section level2">
+<h2>Gradient Boosting Method</h2>
+<p>First, Gradient Boosting Method Model is generated</p>
 <pre class="r"><code>
 model_GBM &lt;- train(classe~., data=trainData, method=&quot;gbm&quot;, trControl=trControl, verbose=FALSE)
 &gt; print(model_GBM)
@@ -633,6 +637,7 @@ The final values used for the model were n.trees =
 150, interaction.depth = 3, shrinkage = 0.1 and
 n.minobsinnode = 10.
 </code></pre>
+<p>The model is then plotted</p>
 <pre class="r"><code>
 &gt; plot(model_GBM)
 &gt; trainpred &lt;- predict(model_GBM,newdata=testData)
@@ -650,14 +655,20 @@ Prediction  A   B   C   D   E
 
 Accuracy
 0.9745331
-
+</code></pre>
+<p>The accuracy rate for General Boosting Method Model is quite high at .9745 and so the out-of-sample error will be about .1</p>
+</div>
+<div id="final-results" class="section level2">
+<h2>Final Results</h2>
+<p>After comparing all the accuracy rates with the three models we can tell that Random Forest Model is the best among the three. Therefore we can use this model to predict the ‘classe’ cases for the dataset test data</p>
+<pre class="r"><code>
 &gt; FinalPred &lt;- predict(model_RF,newdata=validData)
 &gt; FinalPred
 [1] B A B A A E D B A A B C B A E E A B B B
 Levels: A B C D E</code></pre>
 </div>
-<div id="i-hope-this-fucking-works" class="section level2">
-<h2>I hope this fucking works</h2>
+<div id="the-end" class="section level2">
+<h2>The End</h2>
 </div>
 
 

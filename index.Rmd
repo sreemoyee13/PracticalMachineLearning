@@ -290,6 +290,10 @@ magnet_belt_x          10.26
 ```
 Also, with Random Forest Model we noticed that the number of predictors giving the highest accuracy rate is 27
 
+## Gradient Boosting Method
+
+First, Gradient Boosting Method Model is generated
+
 ```r
 
 model_GBM <- train(classe~., data=trainData, method="gbm", trControl=trControl, verbose=FALSE)
@@ -328,6 +332,7 @@ The final values used for the model were n.trees =
 n.minobsinnode = 10.
 
 ```
+The model is then plotted
 
 ```r
 
@@ -348,6 +353,16 @@ Prediction	A	B	C	D	E
 Accuracy
 0.9745331
 
+```
+The accuracy rate for General Boosting Method Model is quite high at .9745 and so the out-of-sample error will be about .1
+
+## Final Results
+After comparing all the accuracy rates with the three models we can tell that Random Forest Model is the best among the three.
+Therefore we can use this model to predict the 'classe' cases for the dataset test data
+
+
+```r
+
 > FinalPred <- predict(model_RF,newdata=validData)
 > FinalPred
 [1] B A B A A E D B A A B C B A E E A B B B
@@ -357,4 +372,4 @@ Levels: A B C D E
 
 
 
-## I hope this fucking works
+## The End
