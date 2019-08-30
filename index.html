@@ -416,7 +416,7 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 corrplot(cor_mat, order = &quot;FPC&quot;, method = &quot;color&quot;, type = &quot;upper&quot;,
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))
 </code></pre>
-<p>The plot is available in [Corr _Plot.pdf] file in the GitHub repository (<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf" class="uri">https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf</a>)</p>
+<p>The plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf">Corr _Plot.pdf</a> file in the GitHub repository</p>
 <pre class="r"><code>highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
 [1] &quot;accel_belt_z&quot;      &quot;roll_belt&quot;         &quot;accel_belt_y&quot;     
@@ -429,7 +429,7 @@ names(trainData)[highlyCorrelated]
 <pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)</code></pre>
-<p>The plot is available in the [Decision _Tree.png] file in the GitHub repository (<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png" class="uri">https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png</a>)</p>
+<p>he plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
 <pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
 &gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)
 &gt; cmtree
