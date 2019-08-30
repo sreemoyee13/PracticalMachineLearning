@@ -371,7 +371,8 @@ summary {
 
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
-<p>Kill me in my face</p>
+<div id="install-packages" class="section level3">
+<h3>Install Packages</h3>
 <pre class="r"><code>library(caret)
 library(rpart)
 library(RColorBrewer)
@@ -379,19 +380,24 @@ library(randomForest)
 library(rattle)
 library(corrplot)
 library(gbm)</code></pre>
+<p>##Data Loading</p>
 <pre class="r"><code>train_in &lt;- read.csv(&#39;./pml-training.csv&#39;, header=T)
 valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 &gt; dim(train_in)
 [1] 19622   160
 &gt; dim(valid_in)
-[1]  20 160
-&gt; trainData&lt;- train_in[, colSums(is.na(train_in)) == 0]
+[1]  20 160</code></pre>
+<p>We can tell there are 19622 observations and 160 variables in the Training Dataset</p>
+<p>##Data Cleaning</p>
+<p>The variables that contain missing values are removed. Therefore the dataset now has less dimension</p>
+<pre class="r"><code>&gt; trainData&lt;- train_in[, colSums(is.na(train_in)) == 0]
 &gt; validData &lt;- valid_in[, colSums(is.na(valid_in)) == 0]
 &gt; dim(trainData)
 [1] 19622    93
 &gt; dim(validData)
-[1] 20 60
-&gt; trainData &lt;- trainData[, -c(1:7)]
+[1] 20 60</code></pre>
+<p>Final Data Cleaning is done by removing the first seven variables as they have less impact on ‘classe’</p>
+<pre class="r"><code>&gt; trainData &lt;- trainData[, -c(1:7)]
 &gt; validData &lt;- validData[, -c(1:7)]
 &gt; dim(trainData)
 [1] 19622    86
@@ -611,6 +617,7 @@ Accuracy
 &gt; FinalPred
 [1] B A B A A E D B A A B C B A E E A B B B
 Levels: A B C D E</code></pre>
+</div>
 </div>
 <div id="i-hope-this-fucking-works" class="section level2">
 <h2>I hope this fucking works</h2>

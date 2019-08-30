@@ -24,11 +24,51 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={Machine Learning Course Project},
-            pdfauthor={Sree},
+            pdftitle={Practical Machine Learning Course Project},
+            pdfauthor={Sreem the Metal Queen},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -74,10 +114,10 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{Machine Learning Course Project}
+  \title{Practical Machine Learning Course Project}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{Sree}
+    \author{Sreem the Metal Queen}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
       \predate{\centering\large\emph}
@@ -88,7 +128,322 @@
 \begin{document}
 \maketitle
 
+\hypertarget{r-markdown}{%
+\subsection{R Markdown}\label{r-markdown}}
 
+\hypertarget{data-loading}{%
+\subsubsection{Data Loading}\label{data-loading}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(caret)}
+\KeywordTok{library}\NormalTok{(rpart)}
+\KeywordTok{library}\NormalTok{(RColorBrewer)}
+\KeywordTok{library}\NormalTok{(randomForest)}
+\KeywordTok{library}\NormalTok{(rattle)}
+\KeywordTok{library}\NormalTok{(corrplot)}
+\KeywordTok{library}\NormalTok{(gbm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train_in <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{'./pml-training.csv'}\NormalTok{, }\DataTypeTok{header=}\NormalTok{T)}
+\NormalTok{valid_in <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{'./pml-testing.csv'}\NormalTok{, }\DataTypeTok{header=}\NormalTok{T)}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(train_in)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{19622}   \DecValTok{160}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(valid_in)}
+\NormalTok{[}\DecValTok{1}\NormalTok{]  }\DecValTok{20} \DecValTok{160}
+\OperatorTok{>}\StringTok{ }\NormalTok{trainData<-}\StringTok{ }\NormalTok{train_in[, }\KeywordTok{colSums}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(train_in)) }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{]}
+\OperatorTok{>}\StringTok{ }\NormalTok{validData <-}\StringTok{ }\NormalTok{valid_in[, }\KeywordTok{colSums}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(valid_in)) }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{]}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(trainData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{19622}    \DecValTok{93}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(validData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{20} \DecValTok{60}
+\OperatorTok{>}\StringTok{ }\NormalTok{trainData <-}\StringTok{ }\NormalTok{trainData[, }\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{)]}
+\OperatorTok{>}\StringTok{ }\NormalTok{validData <-}\StringTok{ }\NormalTok{validData[, }\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{)]}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(trainData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{19622}    \DecValTok{86}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(validData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{20} \DecValTok{53}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\OperatorTok{>}\StringTok{ }\NormalTok{inTrain <-}\StringTok{ }\KeywordTok{createDataPartition}\NormalTok{(trainData}\OperatorTok{$}\NormalTok{classe, }\DataTypeTok{p =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{list =} \OtherTok{FALSE}\NormalTok{)}
+\OperatorTok{>}\StringTok{ }\NormalTok{trainData <-}\StringTok{ }\NormalTok{trainData[inTrain, ]}
+\OperatorTok{>}\StringTok{ }\NormalTok{testData <-}\StringTok{ }\NormalTok{trainData[}\OperatorTok{-}\NormalTok{inTrain, ]}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(trainData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{13737}    \DecValTok{86}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(testData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{4123}   \DecValTok{86}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\NormalTok{NZV <-}\StringTok{ }\KeywordTok{nearZeroVar}\NormalTok{(trainData)}
+\OperatorTok{>}\StringTok{ }\NormalTok{trainData <-}\StringTok{ }\NormalTok{trainData[, }\OperatorTok{-}\NormalTok{NZV]}
+\OperatorTok{>}\StringTok{ }\NormalTok{testData  <-}\StringTok{ }\NormalTok{testData[, }\OperatorTok{-}\NormalTok{NZV]}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(trainData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{13737}    \DecValTok{53}
+\OperatorTok{>}\StringTok{ }\KeywordTok{dim}\NormalTok{(testData)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{4123}   \DecValTok{53}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor_mat <-}\StringTok{ }\KeywordTok{cor}\NormalTok{(trainData[, }\DecValTok{-53}\NormalTok{])}
+\KeywordTok{corrplot}\NormalTok{(cor_mat, }\DataTypeTok{order =} \StringTok{"FPC"}\NormalTok{, }\DataTypeTok{method =} \StringTok{"color"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"upper"}\NormalTok{,}
+\DataTypeTok{tl.cex =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{tl.col =} \KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+The plot is available in
+\href{https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf}{Corr
+\_Plot.pdf} file in the GitHub repository
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{highlyCorrelated =}\StringTok{ }\KeywordTok{findCorrelation}\NormalTok{(cor_mat, }\DataTypeTok{cutoff=}\FloatTok{0.75}\NormalTok{)}
+\KeywordTok{names}\NormalTok{(trainData)[highlyCorrelated]}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\StringTok{"accel_belt_z"}      \StringTok{"roll_belt"}         \StringTok{"accel_belt_y"}     
+\NormalTok{ [}\DecValTok{4}\NormalTok{] }\StringTok{"total_accel_belt"}  \StringTok{"accel_dumbbell_z"}  \StringTok{"accel_belt_x"}     
+\NormalTok{ [}\DecValTok{7}\NormalTok{] }\StringTok{"pitch_belt"}        \StringTok{"magnet_dumbbell_x"} \StringTok{"accel_dumbbell_y"} 
+\NormalTok{[}\DecValTok{10}\NormalTok{] }\StringTok{"magnet_dumbbell_y"} \StringTok{"accel_dumbbell_x"}  \StringTok{"accel_arm_x"}      
+\NormalTok{[}\DecValTok{13}\NormalTok{] }\StringTok{"accel_arm_z"}       \StringTok{"magnet_arm_y"}      \StringTok{"magnet_belt_z"}    
+\NormalTok{[}\DecValTok{16}\NormalTok{] }\StringTok{"accel_forearm_y"}   \StringTok{"gyros_forearm_y"}   \StringTok{"gyros_dumbbell_x"} 
+\NormalTok{[}\DecValTok{19}\NormalTok{] }\StringTok{"gyros_dumbbell_z"}  \StringTok{"gyros_arm_x"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{decisionTreeMod1 <-}\StringTok{ }\KeywordTok{rpart}\NormalTok{(classe }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data=}\NormalTok{trainData, }\DataTypeTok{method=}\StringTok{"class"}\NormalTok{)}
+\KeywordTok{fancyRpartPlot}\NormalTok{(decisionTreeMod1)}
+\KeywordTok{View}\NormalTok{(decisionTreeMod1)}
+\end{Highlighting}
+\end{Shaded}
+
+The plot is available in the
+\href{https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision\%20_Tree.png}{Decision
+\_Tree.png} file in the GitHub repository
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predictTreeMod1 <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(decisionTreeMod1, testData, }\DataTypeTok{type =} \StringTok{"class"}\NormalTok{)}
+\OperatorTok{>}\StringTok{ }\NormalTok{cmtree <-}\StringTok{ }\KeywordTok{confusionMatrix}\NormalTok{(predictTreeMod1, testData}\OperatorTok{$}\NormalTok{classe)}
+\OperatorTok{>}\StringTok{ }\NormalTok{cmtree}
+\NormalTok{Confusion Matrix and Statistics}
+ 
+\NormalTok{        Reference}
+\NormalTok{Prediction  A   B    C  D   E}
+\NormalTok{        A }\DecValTok{1067}  \DecValTok{105}    \DecValTok{9}   \DecValTok{24}   \DecValTok{9}
+\NormalTok{        B   }\DecValTok{40}  \DecValTok{502}   \DecValTok{59}   \DecValTok{63}   \DecValTok{77}
+\NormalTok{        C   }\DecValTok{28}   \DecValTok{90}  \DecValTok{611}  \DecValTok{116}   \DecValTok{86}
+\NormalTok{        D   }\DecValTok{11}   \DecValTok{49}   \DecValTok{41}  \DecValTok{423}   \DecValTok{41}
+\NormalTok{        E   }\DecValTok{19}   \DecValTok{41}   \DecValTok{18}   \DecValTok{46}  \DecValTok{548}
+ 
+\NormalTok{Overall Statistics}
+                                        
+\NormalTok{               Accuracy }\OperatorTok{:}\StringTok{ }\FloatTok{0.7642}        
+                \DecValTok{95}\NormalTok{% CI }\OperatorTok{:}\StringTok{ }\NormalTok{(}\FloatTok{0.751}\NormalTok{, }\FloatTok{0.7771}\NormalTok{)}
+\NormalTok{    No Information Rate }\OperatorTok{:}\StringTok{ }\FloatTok{0.2826}        
+\NormalTok{    P}\OperatorTok{-}\NormalTok{Value [Acc }\OperatorTok{>}\StringTok{ }\NormalTok{NIR] }\OperatorTok{:}\StringTok{ }\ErrorTok{<}\StringTok{ }\FloatTok{2.2e-16}     
+                                        
+\NormalTok{                  Kappa }\OperatorTok{:}\StringTok{ }\FloatTok{0.7015}        
+                                        
+\NormalTok{ Mcnemar}\StringTok{'s Test P-Value : < 2.2e-16     }
+\StringTok{ }
+\StringTok{Statistics by Class:}
+\StringTok{ }
+\StringTok{                     Class: A Class: B Class: C Class: D}
+\StringTok{Sensitivity            0.9159   0.6379   0.8279   0.6295}
+\StringTok{Specificity            0.9503   0.9284   0.9055   0.9589}
+\StringTok{Pos Pred Value         0.8789   0.6775   0.6563   0.7487}
+\StringTok{Neg Pred Value         0.9663   0.9157   0.9602   0.9300}
+\StringTok{Prevalence             0.2826   0.1909   0.1790   0.1630}
+\StringTok{Detection Rate         0.2588   0.1218   0.1482   0.1026}
+\StringTok{Detection Prevalence   0.2944   0.1797   0.2258   0.1370}
+\StringTok{Balanced Accuracy      0.9331   0.7831   0.8667   0.7942}
+\StringTok{                     Class: E}
+\StringTok{Sensitivity            0.7201}
+\StringTok{Specificity            0.9631}
+\StringTok{Pos Pred Value         0.8155}
+\StringTok{Neg Pred Value         0.9383}
+\StringTok{Prevalence             0.1846}
+\StringTok{Detection Rate      0.1329}
+\StringTok{Detection Prevalence   0.1630}
+\StringTok{Balanced Accuracy      0.8416}
+
+\StringTok{> plot(cmtree$table, col = cmtree$byClass, }
+\StringTok{     main = paste("Decision Tree - Accuracy =", round(cmtree$overall['}\NormalTok{Accuracy}\StringTok{'], 4)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\OperatorTok{>}\StringTok{ }\NormalTok{controlRF <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method=}\StringTok{"cv"}\NormalTok{, }\DataTypeTok{number=}\DecValTok{3}\NormalTok{)}
+\NormalTok{ model_RF <-}\StringTok{ }\KeywordTok{train}\NormalTok{(classe }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data=}\NormalTok{trainData, }\DataTypeTok{method=}\StringTok{"rf"}\NormalTok{, }\DataTypeTok{trControl=}\NormalTok{controlRF)}
+\OperatorTok{>}\StringTok{ }\KeywordTok{print}\NormalTok{(model_RF)}
+\NormalTok{Random Forest }
+
+\DecValTok{13737}\NormalTok{ samples}
+   \DecValTok{52}\NormalTok{ predictor}
+    \DecValTok{5}\NormalTok{ classes}\OperatorTok{:}\StringTok{ 'A'}\NormalTok{, }\StringTok{'B'}\NormalTok{, }\StringTok{'C'}\NormalTok{, }\StringTok{'D'}\NormalTok{, }\StringTok{'E'} 
+
+\NormalTok{No pre}\OperatorTok{-}\NormalTok{processing}
+\NormalTok{Resampling}\OperatorTok{:}\StringTok{ }\NormalTok{Cross}\OperatorTok{-}\KeywordTok{Validated}\NormalTok{ (}\DecValTok{3}\NormalTok{ fold) }
+\NormalTok{Summary of sample sizes}\OperatorTok{:}\StringTok{ }\DecValTok{9158}\NormalTok{, }\DecValTok{9159}\NormalTok{, }\DecValTok{9157} 
+\NormalTok{Resampling results across tuning parameters}\OperatorTok{:}
+
+\StringTok{  }\NormalTok{mtry  Accuracy   Kappa    }
+   \DecValTok{2}    \FloatTok{0.9880617}  \FloatTok{0.9848959}
+  \DecValTok{27}    \FloatTok{0.9882072}  \FloatTok{0.9850824}
+  \DecValTok{52}    \FloatTok{0.9806361}  \FloatTok{0.9755043}
+
+\NormalTok{Accuracy was used to select the optimal model using the largest value.}
+\NormalTok{The final value used }\ControlFlowTok{for}\NormalTok{ the model was mtry =}\StringTok{ }\FloatTok{27.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\KeywordTok{plot}\NormalTok{(model_RF,}\DataTypeTok{main=}\StringTok{"Accuracy Rate of RFMA with predictors"}\NormalTok{)}
+\OperatorTok{>}\StringTok{ }\NormalTok{trainpred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(model_RF,}\DataTypeTok{newdata=}\NormalTok{testData)}
+\OperatorTok{>}\StringTok{ }\NormalTok{confMatRF <-}\StringTok{ }\KeywordTok{confusionMatrix}\NormalTok{(testData}\OperatorTok{$}\NormalTok{classe,trainpred)}
+\OperatorTok{>}\StringTok{ }\NormalTok{confMatRF}\OperatorTok{$}\NormalTok{table}
+\NormalTok{        Reference}
+\NormalTok{Prediction  A    B  C   D    E}
+\NormalTok{        A }\DecValTok{1165}  \DecValTok{0}    \DecValTok{0}  \DecValTok{0}   \DecValTok{0}
+\NormalTok{        B    }\DecValTok{0}  \DecValTok{787} \DecValTok{0}    \DecValTok{0}  \DecValTok{0}
+\NormalTok{         C  }\DecValTok{0}   \DecValTok{0}  \DecValTok{738}  \DecValTok{0}   \DecValTok{0}
+\NormalTok{        D    }\DecValTok{0}  \DecValTok{0}   \DecValTok{0}  \DecValTok{672}  \DecValTok{0}
+\NormalTok{        E    }\DecValTok{0}  \DecValTok{0}   \DecValTok{0}    \DecValTok{0}  \DecValTok{761}
+\OperatorTok{>}\StringTok{ }\NormalTok{confMatRF}\OperatorTok{$}\NormalTok{overall[}\DecValTok{1}\NormalTok{]}
+\NormalTok{Accuracy}
+    \DecValTok{1}
+\OperatorTok{>}\StringTok{ }\KeywordTok{names}\NormalTok{(model_RF}\OperatorTok{$}\NormalTok{finalModel)}
+\NormalTok{ [}\DecValTok{1}\NormalTok{] }\StringTok{"call"}         \StringTok{"type"}          \StringTok{"predicted"}     
+\NormalTok{ [}\DecValTok{4}\NormalTok{] }\StringTok{"err.rate"}        \StringTok{"confusion"}      \StringTok{"votes"}         
+\NormalTok{ [}\DecValTok{7}\NormalTok{] }\StringTok{"oob.times"}    \StringTok{"classes"}       \StringTok{"importance"}    
+\NormalTok{[}\DecValTok{10}\NormalTok{] }\StringTok{"importanceSD"}    \StringTok{"localImportance"} \StringTok{"proximity"}    
+\NormalTok{[}\DecValTok{13}\NormalTok{] }\StringTok{"ntree"}        \StringTok{"mtry"}          \StringTok{"forest"}        
+\NormalTok{[}\DecValTok{16}\NormalTok{] }\StringTok{"y"}            \StringTok{"test"}         \StringTok{"inbag"}          
+\NormalTok{[}\DecValTok{19}\NormalTok{] }\StringTok{"xNames"}       \StringTok{"problemType"}   \StringTok{"tuneValue"}     
+\NormalTok{[}\DecValTok{22}\NormalTok{] }\StringTok{"obsLevels"}       \StringTok{"param"}          
+\OperatorTok{>}\StringTok{ }\NormalTok{model_RF}\OperatorTok{$}\NormalTok{finalModel}\OperatorTok{$}\NormalTok{classes}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\StringTok{"A"} \StringTok{"B"} \StringTok{"C"} \StringTok{"D"} \StringTok{"E"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\KeywordTok{plot}\NormalTok{(model_RF}\OperatorTok{$}\NormalTok{finalModel,}\DataTypeTok{main=}\StringTok{"Error of RFMA with  trees"}\NormalTok{)}
+\OperatorTok{>}\StringTok{ }\NormalTok{TopMostVars <-}\StringTok{ }\KeywordTok{varImp}\NormalTok{(model_RF)}
+\OperatorTok{>}\StringTok{ }\NormalTok{TopMostVars}
+\NormalTok{rf variable importance}
+
+\NormalTok{  only }\DecValTok{20}\NormalTok{ most important variables }\KeywordTok{shown}\NormalTok{ (out of }\DecValTok{52}\NormalTok{)}
+
+\NormalTok{                     Overall}
+\NormalTok{roll_belt             }\FloatTok{100.00}
+\NormalTok{pitch_forearm          }\FloatTok{61.11}
+\NormalTok{yaw_belt               }\FloatTok{53.33}
+\NormalTok{magnet_dumbbell_z      }\FloatTok{45.28}
+\NormalTok{magnet_dumbbell_y      }\FloatTok{44.34}
+\NormalTok{roll_forearm           }\FloatTok{44.13}
+\NormalTok{pitch_belt             }\FloatTok{43.54}
+\NormalTok{accel_dumbbell_y       }\FloatTok{22.87}
+\NormalTok{roll_dumbbell          }\FloatTok{18.37}
+\NormalTok{accel_forearm_x        }\FloatTok{16.99}
+\NormalTok{magnet_dumbbell_x      }\FloatTok{16.58}
+\NormalTok{magnet_belt_z          }\FloatTok{15.40}
+\NormalTok{accel_belt_z           }\FloatTok{14.84}
+\NormalTok{magnet_forearm_z       }\FloatTok{14.74}
+\NormalTok{accel_dumbbell_z       }\FloatTok{14.13}
+\NormalTok{total_accel_dumbbell   }\FloatTok{14.01}
+\NormalTok{magnet_belt_y          }\FloatTok{12.36}
+\NormalTok{gyros_belt_z           }\FloatTok{12.15}
+\NormalTok{yaw_arm                }\FloatTok{10.57}
+\NormalTok{magnet_belt_x          }\FloatTok{10.26}
+\OperatorTok{>}\StringTok{ }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{model_GBM <-}\StringTok{ }\KeywordTok{train}\NormalTok{(classe}\OperatorTok{~}\NormalTok{., }\DataTypeTok{data=}\NormalTok{trainData, }\DataTypeTok{method=}\StringTok{"gbm"}\NormalTok{, }\DataTypeTok{trControl=}\NormalTok{trControl, }\DataTypeTok{verbose=}\OtherTok{FALSE}\NormalTok{)}
+\OperatorTok{>}\StringTok{ }\KeywordTok{print}\NormalTok{(model_GBM)}
+
+\NormalTok{Stochastic Gradient Boosting}
+ 
+\DecValTok{13737}\NormalTok{ samples}
+   \DecValTok{52}\NormalTok{ predictor}
+    \DecValTok{5}\NormalTok{ classes}\OperatorTok{:}\StringTok{ 'A'}\NormalTok{, }\StringTok{'B'}\NormalTok{, }\StringTok{'C'}\NormalTok{, }\StringTok{'D'}\NormalTok{, }\StringTok{'E'}
+ 
+\NormalTok{No pre}\OperatorTok{-}\NormalTok{processing}
+\NormalTok{Resampling}\OperatorTok{:}\StringTok{ }\NormalTok{Cross}\OperatorTok{-}\KeywordTok{Validated}\NormalTok{ (}\DecValTok{3}\NormalTok{ fold)}
+\NormalTok{Summary of sample sizes}\OperatorTok{:}\StringTok{ }\DecValTok{9157}\NormalTok{, }\DecValTok{9158}\NormalTok{, }\DecValTok{9159}
+\NormalTok{Resampling results across tuning parameters}\OperatorTok{:}
+\StringTok{ }
+\StringTok{  }\NormalTok{interaction.depth  n.trees  Accuracy   Kappa  }
+  \DecValTok{1}                 \DecValTok{50}      \FloatTok{0.7500893}  \FloatTok{0.6832357}
+  \DecValTok{1}                 \DecValTok{100}     \FloatTok{0.8168436}  \FloatTok{0.7681969}
+  \DecValTok{1}                 \DecValTok{150}     \FloatTok{0.8501841}  \FloatTok{0.8104436}
+  \DecValTok{2}                 \DecValTok{50}      \FloatTok{0.8541882}  \FloatTok{0.8152475}
+  \DecValTok{2}                 \DecValTok{100}     \FloatTok{0.9057278}  \FloatTok{0.8806923}
+  \DecValTok{2}                 \DecValTok{150}     \FloatTok{0.9280040}  \FloatTok{0.9088911}
+  \DecValTok{3}                 \DecValTok{50}      \FloatTok{0.8936438}  \FloatTok{0.8653523}
+  \DecValTok{3}                 \DecValTok{100}     \FloatTok{0.9395785}  \FloatTok{0.9235519}
+  \DecValTok{3}                 \DecValTok{150}     \FloatTok{0.9582877}  \FloatTok{0.9472293}
+ 
+\NormalTok{Tuning parameter }\StringTok{'shrinkage'}\NormalTok{ was held constant at a value}
+\NormalTok{of }\FloatTok{0.1}
+\NormalTok{Tuning parameter }\StringTok{'n.minobsinnode'}\NormalTok{ was held constant}
+\NormalTok{at a value of }\DecValTok{10}
+\NormalTok{Accuracy was used to select the optimal model using the}
+\NormalTok{largest value.}
+\NormalTok{The final values used }\ControlFlowTok{for}\NormalTok{ the model were n.trees =}
+\DecValTok{150}\NormalTok{, interaction.depth =}\StringTok{ }\DecValTok{3}\NormalTok{, shrinkage =}\StringTok{ }\FloatTok{0.1}\NormalTok{ and}
+\NormalTok{n.minobsinnode =}\StringTok{ }\FloatTok{10.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\OperatorTok{>}\StringTok{ }\KeywordTok{plot}\NormalTok{(model_GBM)}
+\OperatorTok{>}\StringTok{ }\NormalTok{trainpred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(model_GBM,}\DataTypeTok{newdata=}\NormalTok{testData)}
+\OperatorTok{>}\StringTok{ }\NormalTok{confMatGBM <-}\StringTok{ }\KeywordTok{confusionMatrix}\NormalTok{(testData}\OperatorTok{$}\NormalTok{classe,trainpred)}
+ \OperatorTok{>}\StringTok{ }\NormalTok{confMatGBM}\OperatorTok{$}\NormalTok{table}
+\NormalTok{        Reference}
+\NormalTok{Prediction  A   B   C   D   E}
+\NormalTok{        A }\DecValTok{1158}  \DecValTok{7}   \DecValTok{0}   \DecValTok{0}   \DecValTok{0}
+\NormalTok{        B   }\DecValTok{23}  \DecValTok{752}   \DecValTok{12}    \DecValTok{0}   \DecValTok{0}
+\NormalTok{        C   }\DecValTok{0}   \DecValTok{20}  \DecValTok{709} \DecValTok{8}   \DecValTok{1}
+\NormalTok{        D   }\DecValTok{0}   \DecValTok{0}   \DecValTok{17}  \DecValTok{653} \DecValTok{2}
+\NormalTok{        E   }\DecValTok{1}   \DecValTok{4}   \DecValTok{3}   \DecValTok{7}  \DecValTok{746}
+        
+\OperatorTok{>}\StringTok{ }\NormalTok{confMatGBM}\OperatorTok{$}\NormalTok{overall[}\DecValTok{1}\NormalTok{]}
+
+\NormalTok{Accuracy}
+\FloatTok{0.9745331}
+
+\OperatorTok{>}\StringTok{ }\NormalTok{FinalPred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(model_RF,}\DataTypeTok{newdata=}\NormalTok{validData)}
+\OperatorTok{>}\StringTok{ }\NormalTok{FinalPred}
+\NormalTok{[}\DecValTok{1}\NormalTok{] B A B A A E D B A A B C B A E E A B B B}
+\NormalTok{Levels}\OperatorTok{:}\StringTok{ }\NormalTok{A B C D E}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{i-hope-this-fucking-works}{%
+\subsection{I hope this fucking works}\label{i-hope-this-fucking-works}}
 
 
 \end{document}
