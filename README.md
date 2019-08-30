@@ -209,7 +209,7 @@ The accuracy rate of the model is plotted
 ```r
 > plot(model_RF,main="Accuracy Rate of RFMA with predictors")
 ```
-The Accuracy Rate plot is available in [Accuracy_RFMA.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png) file in the Git Respiratory
+The Accuracy Rate plot is available in  [Accuracy_RFMA.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png) file in the Git Respiratory
 
 ```r
 
@@ -250,6 +250,8 @@ The model error with the number of trees is also plotted
 ```r
 > plot(model_RF$finalModel,main="Error of RFMA with  trees")
 ```
+The model error plot with the number of trees is available in [ModelError_Trees.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/ModelError_Trees.png) file in the Github Respiratory
+
 Top most important variables are generated.
 The following are the most important variables.
 
@@ -333,6 +335,10 @@ The model is then plotted
 ```r
 
 > plot(model_GBM)
+```
+The model aacuracy plot is available in[Accuracy_GBM](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_GBM.png) file in the Github Respiratory
+
+```r
 > trainpred <- predict(model_GBM,newdata=testData)
 > confMatGBM <- confusionMatrix(testData$classe,trainpred)
  > confMatGBM$table
