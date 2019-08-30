@@ -86,10 +86,7 @@ View(decisionTreeMod1)
 
 The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
 
-=======
 
-The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository
->>>>>>> cb84240624d0d1cb164517aa09d507a1f44a779c
 
 ```r
 predictTreeMod1 <- predict(decisionTreeMod1, testData, type = "class")
