@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Sreem the Metal Queen" />
+<meta name="author" content="Sreemoyee Ray" />
 
 
 <title>Practical Machine Learning Course Project</title>
@@ -363,7 +363,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Practical Machine Learning Course Project</h1>
-<h4 class="author">Sreem the Metal Queen</h4>
+<h4 class="author">Sreemoyee Ray</h4>
 <h4 class="date">8/29/2019</h4>
 
 </div>
@@ -390,18 +390,18 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 [1] 19622   160
 &gt; dim(valid_in)
 [1]  20 160</code></pre>
-<p>We can tell there are 19622 observations and 160 variables in the Training Dataset</p>
+<p>We can tell there are 19622 observations and 160 variables in the Training Dataset.</p>
 </div>
 <div id="data-cleaning" class="section level2">
 <h2>Data Cleaning</h2>
-<p>The variables that contain missing values are removed. Therefore the dataset now has less dimension</p>
+<p>The variables that contain missing values are removed. Therefore the dataset now has less dimension.</p>
 <pre class="r"><code>&gt; trainData&lt;- train_in[, colSums(is.na(train_in)) == 0]
 &gt; validData &lt;- valid_in[, colSums(is.na(valid_in)) == 0]
 &gt; dim(trainData)
 [1] 19622    93
 &gt; dim(validData)
 [1] 20 60</code></pre>
-<p>Final Data Cleaning is done by removing the first seven variables as they have less impact on ‘classe’</p>
+<p>Final Data Cleaning is done by removing the first seven variables as they have less impact on ‘classe’.</p>
 <pre class="r"><code>&gt; trainData &lt;- trainData[, -c(1:7)]
 &gt; validData &lt;- validData[, -c(1:7)]
 &gt; dim(trainData)
@@ -437,7 +437,7 @@ corrplot(cor_mat, order = &quot;FPC&quot;, method = &quot;color&quot;, type = &q
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))
 </code></pre>
 <p>The plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Corr_Plot.pdf">Corr _Plot.pdf</a> file in the GitHub repository</p>
-<p>From the plot we can tell there are many highly correlated variables. The following are the highly correlated variables with cutoff=.75</p>
+<p>From the plot we can tell there are many highly correlated variables. The following are the highly correlated variables with cutoff=.75 .</p>
 <pre class="r"><code>highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
 names(trainData)[highlyCorrelated]
 
@@ -451,16 +451,16 @@ names(trainData)[highlyCorrelated]
 </div>
 <div id="modeling" class="section level2">
 <h2>Modeling</h2>
-<p>Three Models have been tested for predicting the outcome</p>
+<p>Three Models have been tested for predicting the outcome.</p>
 </div>
 <div id="classification-tree-model" class="section level2">
 <h2>Classification Tree Model</h2>
-<p>First, Classification Tree Model is tested. Then the fancyRpartPlot() function is used to plot the classification tree</p>
+<p>First, Classification Tree Model is tested. Then the fancyRpartPlot() function is used to plot the classification tree.</p>
 <pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)</code></pre>
-<p>The Classification Tree plot by using the fancyRpartPlot()function is available in<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/FancyRplot_DecisionTree.pdf">FancyRplot_DecisionTree.pdf</a> file in the Github respiratory</p>
-<p>The model is then validiated on the ‘testdate’ by checking at the accuracy variable</p>
+<p>The Classification Tree plot by using the fancyRpartPlot()function is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/FancyRplot_DecisionTree.pdf">FancyRplot_DecisionTree.pdf</a> file in the Github respiratory.</p>
+<p>The model is then validiated on the ‘testdate’ by checking at the accuracy variable.</p>
 <pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
 &gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)
 &gt; cmtree
@@ -509,12 +509,12 @@ Balanced Accuracy      0.8416
 &gt; plot(cmtree$table, col = cmtree$byClass, 
      main = paste(&quot;Decision Tree - Accuracy =&quot;, round(cmtree$overall[&#39;Accuracy&#39;], 4)))
      </code></pre>
-<p>The Decision Tree Accuracy plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
-<p>We can see that by this method, the Accuracy rate of the model is .7642 and so the out-of-sample error will be about .3</p>
+<p>The Decision Tree Accuracy plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository.</p>
+<p>We can see that by this method, the Accuracy rate of the model is .7642 and so the out-of-sample error will be about .3.</p>
 </div>
 <div id="random-forest-model" class="section level2">
 <h2>Random Forest Model</h2>
-<p>First the model is generated by using ‘cross-validation’ technique</p>
+<p>First the model is generated by using ‘cross-validation’ technique.</p>
 <pre class="r"><code>
 &gt; controlRF &lt;- trainControl(method=&quot;cv&quot;, number=3)
  model_RF &lt;- train(classe ~ ., data=trainData, method=&quot;rf&quot;, trControl=controlRF)
@@ -538,9 +538,9 @@ Resampling results across tuning parameters:
 Accuracy was used to select the optimal model using the largest value.
 The final value used for the model was mtry = 27.
 </code></pre>
-<p>The accuracy rate of the model is plotted</p>
+<p>The accuracy rate of the model is plotted.</p>
 <pre class="r"><code>&gt; plot(model_RF,main=&quot;Accuracy Rate of RFMA with predictors&quot;)</code></pre>
-<p>The Accuracy Rate plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png">Accuracy_RFMA.png</a> file in the Git Respiratory</p>
+<p>The Accuracy Rate plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png">Accuracy_RFMA.png</a> file in the Git Respiratory.</p>
 <pre class="r"><code>
 &gt; trainpred &lt;- predict(model_RF,newdata=testData)
 &gt; confMatRF &lt;- confusionMatrix(testData$classe,trainpred)
@@ -555,7 +555,7 @@ Prediction  A    B  C   D    E
 &gt; confMatRF$overall[1]
 Accuracy
     1</code></pre>
-<p>As we can see the accuracy rate for this model is 1 and that’s why the out-of-sample error is zero. But it can be due to over-fitting. The model error with the number of trees is also plotted</p>
+<p>As we can see the accuracy rate for this model is 1 and that’s why the out-of-sample error is zero. But it can be due to over-fitting. The model error with the number of trees is also plotted.</p>
 <pre class="r"><code>    
 &gt; names(model_RF$finalModel)
  [1] &quot;call&quot;         &quot;type&quot;          &quot;predicted&quot;     
@@ -569,7 +569,7 @@ Accuracy
 &gt; model_RF$finalModel$classes
 [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot;</code></pre>
 <pre class="r"><code>&gt; plot(model_RF$finalModel,main=&quot;Error of RFMA with  trees&quot;)</code></pre>
-<p>The model error plot with the number of trees is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/ModelError_Trees.png">ModelError_Trees.png</a> file in the Github Respiratory</p>
+<p>The model error plot with the number of trees is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/ModelError_Trees.png">ModelError_Trees.png</a> file in the Github Respiratory.</p>
 <p>Top most important variables are generated. The following are the most important variables.</p>
 <pre class="r"><code>&gt; TopMostVars &lt;- varImp(model_RF)
 &gt; TopMostVars
@@ -599,7 +599,7 @@ gyros_belt_z           12.15
 yaw_arm                10.57
 magnet_belt_x          10.26
 &gt; </code></pre>
-<p>Also, with Random Forest Model we noticed that the number of predictors giving the highest accuracy rate is 27</p>
+<p>Also, with Random Forest Model we noticed that the number of predictors giving the highest accuracy rate is 27.</p>
 </div>
 <div id="gradient-boosting-method" class="section level2">
 <h2>Gradient Boosting Method</h2>
@@ -640,10 +640,10 @@ The final values used for the model were n.trees =
 150, interaction.depth = 3, shrinkage = 0.1 and
 n.minobsinnode = 10.
 </code></pre>
-<p>The model is then plotted</p>
+<p>The model is then plotted.</p>
 <pre class="r"><code>
 &gt; plot(model_GBM)</code></pre>
-<p>The model aacuracy plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_GBM.png">Accuracy_GBM</a> file in the Github Respiratory</p>
+<p>The model aacuracy plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_GBM.png">Accuracy_GBM</a> file in the Github Respiratory.</p>
 <pre class="r"><code>
 &gt; trainpred &lt;- predict(model_GBM,newdata=testData)
 &gt; confMatGBM &lt;- confusionMatrix(testData$classe,trainpred)
@@ -661,19 +661,16 @@ Prediction  A   B   C   D   E
 Accuracy
 0.9745331
 </code></pre>
-<p>The accuracy rate for General Boosting Method Model is quite high at .9745 and so the out-of-sample error will be about .1</p>
+<p>The accuracy rate for General Boosting Method Model is quite high at .9745 and so the out-of-sample error will be about .1 .</p>
 </div>
 <div id="final-results" class="section level2">
 <h2>Final Results</h2>
-<p>After comparing all the accuracy rates with the three models we can tell that Random Forest Model is the best among the three. Therefore we can use this model to predict the ‘classe’ cases for the dataset test data</p>
+<p>After comparing all the accuracy rates with the three models we can tell that Random Forest Model is the best among the three. Therefore we can use this model to predict the ‘classe’ cases for the dataset test data.</p>
 <pre class="r"><code>
 &gt; FinalPred &lt;- predict(model_RF,newdata=validData)
 &gt; FinalPred
 [1] B A B A A E D B A A B C B A E E A B B B
 Levels: A B C D E</code></pre>
-</div>
-<div id="the-end" class="section level2">
-<h2>The End</h2>
 </div>
 
 
