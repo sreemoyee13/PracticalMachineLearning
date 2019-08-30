@@ -11,7 +11,12 @@ Kill me in my face
 
 ``` r
 library(caret)
-library(rpart)
+library(rpart)library(RColorBrewer)
+library(randomForest)
+library(rattle)
+library(corrplot)
+library(gbm)
+
 ```
 
 ## I hope this fucking works
