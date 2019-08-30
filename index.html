@@ -415,6 +415,198 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 <pre class="r"><code>cor_mat &lt;- cor(trainData[, -53])
 corrplot(cor_mat, order = &quot;FPC&quot;, method = &quot;color&quot;, type = &quot;upper&quot;,
 tl.cex = 0.8, tl.col = rgb(0, 0, 0))</code></pre>
+<pre class="r"><code>highlyCorrelated = findCorrelation(cor_mat, cutoff=0.75)
+names(trainData)[highlyCorrelated]
+[1] &quot;accel_belt_z&quot;      &quot;roll_belt&quot;         &quot;accel_belt_y&quot;     
+ [4] &quot;total_accel_belt&quot;  &quot;accel_dumbbell_z&quot;  &quot;accel_belt_x&quot;     
+ [7] &quot;pitch_belt&quot;        &quot;magnet_dumbbell_x&quot; &quot;accel_dumbbell_y&quot; 
+[10] &quot;magnet_dumbbell_y&quot; &quot;accel_dumbbell_x&quot;  &quot;accel_arm_x&quot;      
+[13] &quot;accel_arm_z&quot;       &quot;magnet_arm_y&quot;      &quot;magnet_belt_z&quot;    
+[16] &quot;accel_forearm_y&quot;   &quot;gyros_forearm_y&quot;   &quot;gyros_dumbbell_x&quot; 
+[19] &quot;gyros_dumbbell_z&quot;  &quot;gyros_arm_x&quot;</code></pre>
+<pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
+fancyRpartPlot(decisionTreeMod1)
+View(decisionTreeMod1)</code></pre>
+<pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
+&gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)
+&gt; cmtree
+Confusion Matrix and Statistics
+ 
+        Reference
+Prediction  A   B    C  D   E
+        A 1067  105    9   24   9
+        B   40  502   59   63   77
+        C   28   90  611  116   86
+        D   11   49   41  423   41
+        E   19   41   18   46  548
+ 
+Overall Statistics
+                                        
+               Accuracy : 0.7642        
+                95% CI : (0.751, 0.7771)
+    No Information Rate : 0.2826        
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16     
+                                        
+                  Kappa : 0.7015        
+                                        
+ Mcnemar&#39;s Test P-Value : &lt; 2.2e-16     
+ 
+Statistics by Class:
+ 
+                     Class: A Class: B Class: C Class: D
+Sensitivity            0.9159   0.6379   0.8279   0.6295
+Specificity            0.9503   0.9284   0.9055   0.9589
+Pos Pred Value         0.8789   0.6775   0.6563   0.7487
+Neg Pred Value         0.9663   0.9157   0.9602   0.9300
+Prevalence             0.2826   0.1909   0.1790   0.1630
+Detection Rate         0.2588   0.1218   0.1482   0.1026
+Detection Prevalence   0.2944   0.1797   0.2258   0.1370
+Balanced Accuracy      0.9331   0.7831   0.8667   0.7942
+                     Class: E
+Sensitivity            0.7201
+Specificity            0.9631
+Pos Pred Value         0.8155
+Neg Pred Value         0.9383
+Prevalence             0.1846
+Detection Rate      0.1329
+Detection Prevalence   0.1630
+Balanced Accuracy      0.8416
+&gt; plot(cmtree$table, col = cmtree$byClass, 
+     main = paste(&quot;Decision Tree - Accuracy =&quot;, round(cmtree$overall[&#39;Accuracy&#39;], 4)))</code></pre>
+<pre class="r"><code>
+&gt; controlRF &lt;- trainControl(method=&quot;cv&quot;, number=3)
+ model_RF &lt;- train(classe ~ ., data=trainData, method=&quot;rf&quot;, trControl=controlRF)
+&gt; print(model_RF)
+Random Forest 
+
+13737 samples
+   52 predictor
+    5 classes: &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39; 
+
+No pre-processing
+Resampling: Cross-Validated (3 fold) 
+Summary of sample sizes: 9158, 9159, 9157 
+Resampling results across tuning parameters:
+
+  mtry  Accuracy   Kappa    
+   2    0.9880617  0.9848959
+  27    0.9882072  0.9850824
+  52    0.9806361  0.9755043
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 27.</code></pre>
+<pre class="r"><code>&gt; plot(model_RF,main=&quot;Accuracy Rate of RFMA with predictors&quot;)
+&gt; trainpred &lt;- predict(model_RF,newdata=testData)
+&gt; confMatRF &lt;- confusionMatrix(testData$classe,trainpred)
+&gt; confMatRF$table
+        Reference
+Prediction  A    B  C   D    E
+        A 1165  0    0  0   0
+        B    0  787 0    0  0
+         C  0   0  738  0   0
+        D    0  0   0  672  0
+        E    0  0   0    0  761
+&gt; confMatRF$overall[1]
+Accuracy
+    1
+&gt; names(model_RF$finalModel)
+ [1] &quot;call&quot;         &quot;type&quot;          &quot;predicted&quot;     
+ [4] &quot;err.rate&quot;        &quot;confusion&quot;      &quot;votes&quot;         
+ [7] &quot;oob.times&quot;    &quot;classes&quot;       &quot;importance&quot;    
+[10] &quot;importanceSD&quot;    &quot;localImportance&quot; &quot;proximity&quot;    
+[13] &quot;ntree&quot;        &quot;mtry&quot;          &quot;forest&quot;        
+[16] &quot;y&quot;            &quot;test&quot;         &quot;inbag&quot;          
+[19] &quot;xNames&quot;       &quot;problemType&quot;   &quot;tuneValue&quot;     
+[22] &quot;obsLevels&quot;       &quot;param&quot;          
+&gt; model_RF$finalModel$classes
+[1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot;</code></pre>
+<pre class="r"><code>&gt; plot(model_RF$finalModel,main=&quot;Error of RFMA with  trees&quot;)
+&gt; TopMostVars &lt;- varImp(model_RF)
+&gt; TopMostVars
+rf variable importance
+
+  only 20 most important variables shown (out of 52)
+
+                     Overall
+roll_belt             100.00
+pitch_forearm          61.11
+yaw_belt               53.33
+magnet_dumbbell_z      45.28
+magnet_dumbbell_y      44.34
+roll_forearm           44.13
+pitch_belt             43.54
+accel_dumbbell_y       22.87
+roll_dumbbell          18.37
+accel_forearm_x        16.99
+magnet_dumbbell_x      16.58
+magnet_belt_z          15.40
+accel_belt_z           14.84
+magnet_forearm_z       14.74
+accel_dumbbell_z       14.13
+total_accel_dumbbell   14.01
+magnet_belt_y          12.36
+gyros_belt_z           12.15
+yaw_arm                10.57
+magnet_belt_x          10.26
+&gt; </code></pre>
+<pre class="r"><code>
+model_GBM &lt;- train(classe~., data=trainData, method=&quot;gbm&quot;, trControl=trControl, verbose=FALSE)
+&gt; print(model_GBM)
+
+Stochastic Gradient Boosting
+ 
+13737 samples
+   52 predictor
+    5 classes: &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;
+ 
+No pre-processing
+Resampling: Cross-Validated (3 fold)
+Summary of sample sizes: 9157, 9158, 9159
+Resampling results across tuning parameters:
+ 
+  interaction.depth  n.trees  Accuracy   Kappa  
+  1                 50      0.7500893  0.6832357
+  1                 100     0.8168436  0.7681969
+  1                 150     0.8501841  0.8104436
+  2                 50      0.8541882  0.8152475
+  2                 100     0.9057278  0.8806923
+  2                 150     0.9280040  0.9088911
+  3                 50      0.8936438  0.8653523
+  3                 100     0.9395785  0.9235519
+  3                 150     0.9582877  0.9472293
+ 
+Tuning parameter &#39;shrinkage&#39; was held constant at a value
+of 0.1
+Tuning parameter &#39;n.minobsinnode&#39; was held constant
+at a value of 10
+Accuracy was used to select the optimal model using the
+largest value.
+The final values used for the model were n.trees =
+150, interaction.depth = 3, shrinkage = 0.1 and
+n.minobsinnode = 10.
+</code></pre>
+<pre class="r"><code>
+&gt; plot(model_GBM)
+&gt; trainpred &lt;- predict(model_GBM,newdata=testData)
+&gt; confMatGBM &lt;- confusionMatrix(testData$classe,trainpred)
+ &gt; confMatGBM$table
+        Reference
+Prediction  A   B   C   D   E
+        A 1158  7   0   0   0
+        B   23  752   12    0   0
+        C   0   20  709 8   1
+        D   0   0   17  653 2
+        E   1   4   3   7  746
+        
+&gt; confMatGBM$overall[1]
+
+Accuracy
+0.9745331
+
+&gt; FinalPred &lt;- predict(model_RF,newdata=validData)
+&gt; FinalPred
+[1] B A B A A E D B A A B C B A E E A B B B
+Levels: A B C D E</code></pre>
 </div>
 <div id="i-hope-this-fucking-works" class="section level2">
 <h2>I hope this fucking works</h2>
