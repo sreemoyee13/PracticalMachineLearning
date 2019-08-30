@@ -539,6 +539,7 @@ The final value used for the model was mtry = 27.
 </code></pre>
 <p>The accuracy rate of the model is plotted</p>
 <pre class="r"><code>&gt; plot(model_RF,main=&quot;Accuracy Rate of RFMA with predictors&quot;)</code></pre>
+<p>The Accuracy Rate plot is available in [Accuracy_RFMA.png] (<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png" class="uri">https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png</a>) file in the Git Respiratory</p>
 <pre class="r"><code>
 &gt; trainpred &lt;- predict(model_RF,newdata=testData)
 &gt; confMatRF &lt;- confusionMatrix(testData$classe,trainpred)
