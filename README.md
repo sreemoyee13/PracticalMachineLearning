@@ -110,6 +110,10 @@ names(trainData)[highlyCorrelated]
 
 ```
 ## Modelling
+Three Models have been tested for predicting the outcome
+
+First, Classification Tree Model is tested.
+Then the fancyRpartPlot() function is used to plot the classification tree
 
 ```r
 decisionTreeMod1 <- rpart(classe ~ ., data=trainData, method="class")
@@ -117,6 +121,7 @@ fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)
 
 ```
+The model is then validiated on the 'testdate' by checking at the accuracy variable
 
 ```r
 predictTreeMod1 <- predict(decisionTreeMod1, testData, type = "class")
@@ -167,7 +172,7 @@ Balanced Accuracy      0.8416
 > plot(cmtree$table, col = cmtree$byClass, 
      main = paste("Decision Tree - Accuracy =", round(cmtree$overall['Accuracy'], 4)))
 ```     
- The plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository    
+ The Decision Tree Accuracy plot is available in the [Decision _Tree.png](https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png) file in the GitHub repository    
 ```r
 
 > controlRF <- trainControl(method="cv", number=3)

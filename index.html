@@ -451,9 +451,12 @@ names(trainData)[highlyCorrelated]
 </div>
 <div id="modelling" class="section level2">
 <h2>Modelling</h2>
+<p>Three Models have been tested for predicting the outcome</p>
+<p>First, Classification Tree Model is tested. Then the fancyRpartPlot() function is used to plot the classification tree</p>
 <pre class="r"><code>decisionTreeMod1 &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
 fancyRpartPlot(decisionTreeMod1)
 View(decisionTreeMod1)</code></pre>
+<p>The model is then validiated on the ‘testdate’ by checking at the accuracy variable</p>
 <pre class="r"><code>predictTreeMod1 &lt;- predict(decisionTreeMod1, testData, type = &quot;class&quot;)
 &gt; cmtree &lt;- confusionMatrix(predictTreeMod1, testData$classe)
 &gt; cmtree
@@ -502,7 +505,7 @@ Balanced Accuracy      0.8416
 &gt; plot(cmtree$table, col = cmtree$byClass, 
      main = paste(&quot;Decision Tree - Accuracy =&quot;, round(cmtree$overall[&#39;Accuracy&#39;], 4)))
      </code></pre>
-<p>The plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
+<p>The Decision Tree Accuracy plot is available in the <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Decision%20_Tree.png">Decision _Tree.png</a> file in the GitHub repository</p>
 <pre class="r"><code>
 &gt; controlRF &lt;- trainControl(method=&quot;cv&quot;, number=3)
  model_RF &lt;- train(classe ~ ., data=trainData, method=&quot;rf&quot;, trControl=controlRF)
