@@ -539,7 +539,7 @@ The final value used for the model was mtry = 27.
 </code></pre>
 <p>The accuracy rate of the model is plotted</p>
 <pre class="r"><code>&gt; plot(model_RF,main=&quot;Accuracy Rate of RFMA with predictors&quot;)</code></pre>
-<p>The Accuracy Rate plot is available in [Accuracy_RFMA.png] (<a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png" class="uri">https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png</a>) file in the Git Respiratory</p>
+<p>The Accuracy Rate plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_RFMA.png">Accuracy_RFMA.png</a> file in the Git Respiratory</p>
 <pre class="r"><code>
 &gt; trainpred &lt;- predict(model_RF,newdata=testData)
 &gt; confMatRF &lt;- confusionMatrix(testData$classe,trainpred)
@@ -568,6 +568,7 @@ Accuracy
 &gt; model_RF$finalModel$classes
 [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot;</code></pre>
 <pre class="r"><code>&gt; plot(model_RF$finalModel,main=&quot;Error of RFMA with  trees&quot;)</code></pre>
+<p>The model error plot with the number of trees is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/ModelError_Trees.png">ModelError_Trees.png</a> file in the Github Respiratory</p>
 <p>Top most important variables are generated. The following are the most important variables.</p>
 <pre class="r"><code>&gt; TopMostVars &lt;- varImp(model_RF)
 &gt; TopMostVars
@@ -640,7 +641,9 @@ n.minobsinnode = 10.
 </code></pre>
 <p>The model is then plotted</p>
 <pre class="r"><code>
-&gt; plot(model_GBM)
+&gt; plot(model_GBM)</code></pre>
+<p>The model aacuracy plot is available in <a href="https://github.com/sreemoyee13/PracticalMachineLearning/blob/gh-pages/Accuracy_GBM.png">Accuracy_GBM</a> file in the Github Respiratory</p>
+<pre class="r"><code>
 &gt; trainpred &lt;- predict(model_GBM,newdata=testData)
 &gt; confMatGBM &lt;- confusionMatrix(testData$classe,trainpred)
  &gt; confMatGBM$table
