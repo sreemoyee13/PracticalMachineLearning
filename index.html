@@ -397,6 +397,24 @@ valid_in &lt;- read.csv(&#39;./pml-testing.csv&#39;, header=T)
 [1] 19622    86
 &gt; dim(validData)
 [1] 20 53</code></pre>
+<pre class="r"><code>&gt; set.seed(1234)
+&gt; inTrain &lt;- createDataPartition(trainData$classe, p = 0.7, list = FALSE)
+&gt; trainData &lt;- trainData[inTrain, ]
+&gt; testData &lt;- trainData[-inTrain, ]
+&gt; dim(trainData)
+[1] 13737    86
+&gt; dim(testData)
+[1] 4123   86</code></pre>
+<pre class="r"><code>&gt; NZV &lt;- nearZeroVar(trainData)
+&gt; trainData &lt;- trainData[, -NZV]
+&gt; testData  &lt;- testData[, -NZV]
+&gt; dim(trainData)
+[1] 13737    53
+&gt; dim(testData)
+[1] 4123   53</code></pre>
+<pre class="r"><code>cor_mat &lt;- cor(trainData[, -53])
+corrplot(cor_mat, order = &quot;FPC&quot;, method = &quot;color&quot;, type = &quot;upper&quot;,
+tl.cex = 0.8, tl.col = rgb(0, 0, 0))</code></pre>
 </div>
 <div id="i-hope-this-fucking-works" class="section level2">
 <h2>I hope this fucking works</h2>

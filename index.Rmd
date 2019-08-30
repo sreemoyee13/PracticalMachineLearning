@@ -38,5 +38,29 @@ valid_in <- read.csv('./pml-testing.csv', header=T)
 > dim(validData)
 [1] 20 53
 ```
+```r
+> set.seed(1234)
+> inTrain <- createDataPartition(trainData$classe, p = 0.7, list = FALSE)
+> trainData <- trainData[inTrain, ]
+> testData <- trainData[-inTrain, ]
+> dim(trainData)
+[1] 13737    86
+> dim(testData)
+[1] 4123   86
+```
+```r
+> NZV <- nearZeroVar(trainData)
+> trainData <- trainData[, -NZV]
+> testData  <- testData[, -NZV]
+> dim(trainData)
+[1] 13737    53
+> dim(testData)
+[1] 4123   53
+```
+```r
+cor_mat <- cor(trainData[, -53])
+corrplot(cor_mat, order = "FPC", method = "color", type = "upper",
+tl.cex = 0.8, tl.col = rgb(0, 0, 0))
+```
 
 ## I hope this fucking works
